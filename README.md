@@ -1,15 +1,16 @@
 # news_kiosk
-Make News Sexy Again
+**Make News Sexy Again**
 
 # Interactive News Kiosk
 
 ## Table of Contents
 - [Project Description](#project-description)
 - [Project Architecture](#project-architecture)
+- [API Documentation](#api-documentation)
 - [QR Navigation](#qr-navigation)
-- [Parser and API Usage](#parser-and-api-usage)
 - [Installation](#installation)
 - [Server Management](#server-management)
+- [Testing and Validation](#testing-and-validation)
 - [Tech Stack](#tech-stack)
 - [License](#license)
 
@@ -17,13 +18,14 @@ Make News Sexy Again
 
 ## Project Description
 
-This project powers a QR-driven interactive news kiosk for public display environments. Users can access current news topics (e.g., Sports, Economy, Science) via a large screen and scan QR codes to vote for their favorite articles or navigate to related content.
+This project powers a QR-driven interactive news kiosk for public display environments.  
+Users can access current news topics (Sports, Economy, Science, Tech, Entertainment) via a large screen and scan QR codes to vote for their favorite articles or navigate to related content.
 
-### Key Features:
-- Touchless interaction via QR codes
-- Real-time news fetched from [GNews API](https://gnews.io/)
-- Voting mechanism with persistent result storage
-- Start page highlighting top-voted articles
+### Key Features
+- Touchless interaction via QR codes  
+- Real-time news fetched from [GNews API](https://gnews.io/)  
+- Voting mechanism with persistent result storage  
+- Start page highlighting top-voted articles  
 
 ---
 
@@ -76,23 +78,6 @@ public_html/
 │   ├── economic_navigation.html
 │   ├── style.css           # Stylesheet
 ```
----
-
-## QR Navigation
-
-Each screen is designed for QR-driven interaction. Every article card contains:
-
-- QR Code linking to the original article
-- QR Code to vote for the article
-- Footer QR Codes for navigating to other categories or ending the session
-
-### Example Footer Navigation:
-
-- [Landing Page](display/index.html)  
-- [Tech](display/tech.html)  
-- [Sports](display/sports.html)  
-- [Economy](display/economy.html)  
-- [Science](display/science.html)
 
 ---
 
@@ -116,35 +101,122 @@ and stores them in category-specific JSON files. Each parser script (`*_parser.p
 
 ### Example API Call (from `tech_parser.php`)
 
-php
-$url = "https://gnews.io/api/v4/search?q=AI+OR+technology&lang=en&max=5&apikey=92b57dabb4b148dacaafc52214785cb2";
+```php
+$url = "https://gnews.io/api/v4/search?q=AI+OR+technology&lang=en&max=5&apikey=YOUR_API_KEY";
 $json = file_get_contents($url);
 $data = json_decode($json, true);
+```
+
+---
 
 ### Parameters
-q – keywords or Boolean operators (e.g., "AI OR technology")
-lang – language code (e.g., en)
-max – maximum number of articles (default: 10)
-apikey – your personal GNews API key
 
-### Example Resonse
+- `q` – keywords or Boolean operators (e.g., `"AI OR technology"`)  
+- `lang` – language code (e.g., `en`)  
+- `max` – maximum number of articles (default: 10)  
+- `apikey` – your personal GNews API key  
+
+---
+
+### Example JSON Response
+
+```json
 {
-            "id": "4b0be16b14f760b8d5b9cba147becc51",
-            "title": "Shinkai Launches v1.0: Onchain AI Agents Go Live with USDC & Coinbase x402",
-            "description": "Georgetown, Cayman Islands, 29th July 2025, Chainwire",
-            "content": "Georgetown, Cayman Islands, July 29th, 2025, Chainwire\nShinkai, the open-source, local-first platform for building and sharing autonomous AI agents, has officially released version 1.0, its first production-ready build. With support for USDC micro-pa... [4106 chars]",
-            "url": "https://techstartups.com/2025/07/29/shinkai-launches-v1-0-onchain-ai-agents-go-live-with-usdc-coinbase-x402",
-            "image": "https://techstartups.com/wp-content/uploads/2025/07/image_23_1753469869HjLRF0f7bT-960x640.jpg",
-            "publishedAt": "2025-07-29T13:11:14Z",
-            "source": {
-                "id": "a3b1ce1267ce02959f0b6a7bc018cec4",
-                "name": "TechStartups.com",
-                "url": "https://techstartups.com"
-            }
-        }
+  "articles": [
+    {
+      "title": "AI breakthrough announced",
+      "url": "https://example.com/article1",
+      "publishedAt": "2025-08-20T10:00:00Z",
+      "source": "Example News"
+    }
+  ]
+}
+```
+
+---
 
 ### Customization
-To change keywords → modify q in the respective parser script.
-To change article count → adjust max.
-To change language → update lang.
-To use your own API key → replace apikey.
+
+- To change keywords → modify `q` in the respective parser script.  
+- To change article count → adjust `max`.  
+- To change language → update `lang`.  
+- To use your own API key → replace `apikey`.  
+
+---
+
+## QR Navigation
+
+Each screen is designed for QR-driven interaction. Every article card includes:
+
+- QR Code linking to the original article  
+- QR Code to vote for the article  
+- Footer QR Codes for navigating to other categories or ending the session  
+
+### Example Footer Navigation
+
+- Landing Page → `display/start.html`  
+- Tech → `categories/tech.html`  
+- Sports → `categories/sports.html`  
+- Economy → `categories/economic.html`  
+- Science → `categories/science.html`  
+
+---
+
+## Installation
+
+### Prerequisites
+
+- Web server with PHP support  
+- Access to the [GNews API](https://gnews.io/) (API key required)  
+
+### Setup Steps
+
+1. Clone or copy the repository into your web server’s public folder.  
+2. Update API keys and query parameters in each parser script under `jsonpasser/`.  
+3. Ensure the `jsonpasser/data/` folder is writable by the web server (to save `.json` files).  
+4. Access the system via your browser:  
+   `http://<your-server>/public_html/display/start.html`  
+
+---
+
+## Server Management
+
+### Run Locally
+
+Start your PHP server inside the project folder:
+
+```bash
+php -S localhost:8000 -t public_html/
+```
+
+Access at: `http://localhost:8000/display/start.html`
+
+### Deployment
+
+- Copy project files to your hosting provider (e.g., via `scp` or `rsync`).  
+- Ensure file permissions for `/jsonpasser/data/`.  
+
+---
+
+## Testing and Validation
+
+- Verify JSON files are updated after parser execution.  
+- Check QR codes lead to correct article links and navigation paths.  
+- Confirm voting updates `voted_articles.json`.  
+
+---
+
+## Tech Stack
+
+- PHP (parser and QR callback handling)  
+- HTML/CSS/JavaScript (frontend display)  
+- JSON (article storage, votes)  
+- [GNews API](https://gnews.io/) (news source)  
+
+---
+
+## License
+
+This project is licensed for educational use only.  
+Commercial use requires explicit permission.  
+See [LICENSE](LICENSE) for full terms.
