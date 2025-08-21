@@ -102,7 +102,7 @@ and stores them in category-specific JSON files. Each parser script (`*_parser.p
 ### Example API Call (from `tech_parser.php`)
 
 ```php
-$url = "https://gnews.io/api/v4/search?q=AI+OR+technology&lang=en&max=5&apikey=YOUR_API_KEY";
+$url = "https://gnews.io/api/v4/search?q=AI+OR+technology&lang=en&max=5&apikey=92b57dabb4b148dacaafc52214785cb2";
 $json = file_get_contents($url);
 $data = json_decode($json, true);
 ```
@@ -114,7 +114,7 @@ $data = json_decode($json, true);
 - `q` – keywords or Boolean operators (e.g., `"AI OR technology"`)  
 - `lang` – language code (e.g., `en`)  
 - `max` – maximum number of articles (default: 10)  
-- `apikey` – your personal GNews API key  
+- `apikey` – the personal gnewsAPI key, which is: 92b57dabb4b148dacaafc52214785cb2
 
 ---
 
@@ -122,15 +122,21 @@ $data = json_decode($json, true);
 
 ```json
 {
-  "articles": [
-    {
-      "title": "AI breakthrough announced",
-      "url": "https://example.com/article1",
-      "publishedAt": "2025-08-20T10:00:00Z",
-      "source": "Example News"
+      "id": "bbe34feeabae428b9679dd3d183a05c9",
+      "title": "Fast & Furious: Arcade Edition release date revealed",
+      "description": "The game will be released on PS5, Xbox Series X|S and Nintendo Switch.",
+      "content": "Open Extended Reactions\nIn a press release, developer Cradle Games and publisher GameMill Entertainment revealed that Fast & Furious: Arcade Edition will be released on PS5, Xbox Series X|S and Nintendo Switch on Oct. 24, 2025.\nAs the name suggests, ... [1133 chars]",
+      "url": "https://www.espn.ph/gaming/story/_/id/46038583/fast-furious-arcade-edition-release-date",
+      "image": "https://a3.espncdn.com/combiner/i?img=%2Fphoto%2F2025%2F0821%2Fr1534781_1296x729_16%2D9.png",
+      "publishedAt": "2025-08-21T17:19:39Z",
+      "lang": "en",
+      "source": {
+        "id": "a38b4683030b8963222bbd436bbe8ed5",
+        "name": "ESPN Philippines",
+        "url": "https://www.espn.ph",
+        "country": "ph"
+      }
     }
-  ]
-}
 ```
 
 ---
@@ -140,7 +146,7 @@ $data = json_decode($json, true);
 - To change keywords → modify `q` in the respective parser script.  
 - To change article count → adjust `max`.  
 - To change language → update `lang`.  
-- To use your own API key → replace `apikey`.  
+- To use another API key → replace `apikey`.
 
 ---
 
@@ -167,7 +173,7 @@ Each screen is designed for QR-driven interaction. Every article card includes:
 ### Prerequisites
 
 - Web server with PHP support  
-- Access to the [GNews API](https://gnews.io/) (API key required)  
+- Access to the [GNews API](https://gnews.io/)
 
 ### Setup Steps
 
