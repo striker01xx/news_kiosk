@@ -29,6 +29,7 @@ This project powers a QR-driven interactive news kiosk for public display enviro
 
 ## Project Architecture
 
+```plaintext
 public_html/
 ├── waitqr/                 # QR-Callback-Service
 │   ├── initiate.php        # Starts QR-Callback
@@ -74,7 +75,7 @@ public_html/
 │   ├── economic.html
 │   ├── economic_navigation.html
 │   ├── style.css           # Stylesheet
-
+```
 ---
 
 ## QR Navigation
