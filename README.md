@@ -46,9 +46,9 @@ public_html/
 │   ├── qr_landing.png
 │   ├── qr_economic.png
 │
-├── jsonpasser/             # Parser for content
+├── jsonpasser/             # Parsers for content. They talk to the API when called via POST fromt the CPEE. Then they write the content to the respective JSON files.
 │   ├── tech_parser.php
-│   ├── vote.php
+│   ├── vote.php            # gets sent an article ID and a theme, then writes the article in the voted_articles.json
 │   ├── dadjoke_parser.php
 │   ├── economic_parser.php
 │   ├── sports_parser.php
@@ -62,12 +62,12 @@ public_html/
 │   │   ├── science_data.json
 │   │   ├── voted_articles.json
 │
-├── display/                # Main pages
-│   ├── start.html
-│   ├── main.html
-│   ├── navigation.html
+├── display/                # Pages
+│   ├── start.html          # Start page for the main process
+│   ├── main.html           # Main Page where recommended articles can be seen and you can navigate to the 
+│   ├── navigation.html     # Navigation bar
 │
-├── categories/             # Category pages
+├── categories/             # Category pages and their respective navigation bar
 │   ├── science.html
 │   ├── science_navigation.html
 │   ├── sports.html
@@ -154,13 +154,22 @@ $data = json_decode($json, true);
 
 Each screen is designed for QR-driven interaction. Every article card includes:
 
-- QR Code linking to the original article  
-- QR Code to vote for the article  
-- Footer QR Codes for navigating to other categories or ending the session  
+- QR Code linking to the original article which gets created by using the api.qrserver.com API to create them dynamically
+- QR Code to vote for the article. The voting Link gets created dynamically aswell with the same API and contains the article ID gets passed to the vote.php which then stores the json of the article in the voted_articles.json file
+- Footer QR Codes for navigating to other categories or ending the session. The used links within the qr Codes are:
+https://lehre.bpm.in.tum.de/~go56sew/waitqr/callback.php?navigate=tech
+https://lehre.bpm.in.tum.de/~go56sew/waitqr/callback.php?navigate=landing
+https://lehre.bpm.in.tum.de/~go56sew/waitqr/callback.php?navigate=sports
+https://lehre.bpm.in.tum.de/~go56sew/waitqr/callback.php?navigate=economy
+https://lehre.bpm.in.tum.de/~go56sew/waitqr/callback.php?navigate=science
+https://lehre.bpm.in.tum.de/~go56sew/waitqr/callback.php?navigate=end
+
+
 
 ### Example Footer Navigation
 
-- Landing Page → `display/start.html`  
+- Start Page → `display/start.html`  
+- Landing Page → `display/main.html`  
 - Tech → `categories/tech.html`  
 - Sports → `categories/sports.html`  
 - Economy → `categories/economic.html`  
@@ -185,24 +194,6 @@ Each screen is designed for QR-driven interaction. Every article card includes:
 
 ---
 
-## Server Management
-
-### Run Locally
-
-Start your PHP server inside the project folder:
-
-```bash
-php -S localhost:8000 -t public_html/
-```
-
-Access at: `http://localhost:8000/display/start.html`
-
-### Deployment
-
-- Copy project files to your hosting provider (e.g., via `scp` or `rsync`).  
-- Ensure file permissions for `/jsonpasser/data/`.  
-
----
 
 ## Testing and Validation
 
