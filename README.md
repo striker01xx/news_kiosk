@@ -157,13 +157,14 @@ Each screen is designed for QR-driven interaction. Every article card includes:
 - QR Code linking to the original article which gets created by using the api.qrserver.com API to create them dynamically
 - QR Code to vote for the article. The voting Link gets created dynamically aswell with the same API and contains the article ID gets passed to the vote.php which then stores the json of the article in the voted_articles.json file
 - Footer QR Codes for navigating to other categories or ending the session. The used links within the qr Codes are:
+```Navigation Links
 https://lehre.bpm.in.tum.de/~go56sew/waitqr/callback.php?navigate=tech
 https://lehre.bpm.in.tum.de/~go56sew/waitqr/callback.php?navigate=landing
 https://lehre.bpm.in.tum.de/~go56sew/waitqr/callback.php?navigate=sports
 https://lehre.bpm.in.tum.de/~go56sew/waitqr/callback.php?navigate=economy
 https://lehre.bpm.in.tum.de/~go56sew/waitqr/callback.php?navigate=science
 https://lehre.bpm.in.tum.de/~go56sew/waitqr/callback.php?navigate=end
-
+```
 
 
 ### Example Footer Navigation
