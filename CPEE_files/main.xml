@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testset xmlns="http://cpee.org/ns/properties/2.0">
+  <executionhandler>ruby</executionhandler>
+
+  <dataelements>
+    <last_scanned>1753802048</last_scanned>
+    <result>
+      {
+        "CPEE-INSTANCE": "62204",
+        "CPEE-INSTANCE-URL": "https://cpee.org/flow/engine/62204",
+        "CPEE-INSTANCE-UUID": "ac7eb854-4a98-4504-bafd-126a73374523",
+        "CPEE-STATE": "finished",
+        "qr": { "navigate": "tech" },
+        "tech": "Saved to data/tech_data.json"
+      }
+    </result>
+    <qr>{"navigate":"tech"}</qr>
+  </dataelements>
+
+  <endpoints>
+    <timeout>https://cpee.org/services/timeout.php</timeout>
+    <subprocess>https://cpee.org/flow/start/url/</subprocess>
+    <frames_display>https-put://cpee.org/out/frames/news/</frames_display>
+    <frames_init>https-post://cpee.org/out/frames/news/</frames_init>
+    <dadjoke>https://lehre.bpm.in.tum.de/~go56sew/jsonpasser/dadjoke_parser.php</dadjoke>
+    <waitqr>https-get://lehre.bpm.in.tum.de/~go56sew/waitqr/initiate.php</waitqr>
+  </endpoints>
+
+  <attributes>
+    <guarded>none</guarded>
+    <modeltype>CPEE</modeltype>
+    <theme>extended</theme>
+    <guarded_id/>
+    <info>main_manual</info>
+    <creator>Christine Ashcreek</creator>
+    <author>Christine Ashcreek</author>
+    <model_uuid>47dc1b0e-f118-4e59-860f-a95c2dea386f</model_uuid>
+    <model_version/>
+    <design_dir>Teaching.dir/Prak.dir/TUM-Prak-25-SS.dir/Raue_Ole.dir/</design_dir>
+    <design_stage>development</design_stage>
+  </attributes>
+
+  <description>
+    <description xmlns="http://cpee.org/ns/description/1.0">
+
+      <!-- Initialize Frame -->
+      <call id="a13" endpoint="frames_init">
+        <parameters>
+          <label>Initialize Frame</label>
+          <arguments>
+            <style_url>https://cpee.org/form/frames.css</style_url>
+            <document_url/>
+            <x_amount>5</x_amount>
+            <y_amount>8</y_amount>
+            <lang>de-at</lang>
+            <document_name>News Kiosk</document_name>
+          </arguments>
+        </parameters>
+        <code>
+          <prepare/>
+          <finalize output="result"/>
+          <update output="result"/>
+          <rescue output="result"/>
+        </code>
+        <annotations/>
+        <documentation/>
+      </call>
+
+      <manipulate id="a11" label="Initialize data">
+        data.qr = {"navigate":"landing"}
+      </manipulate>
+
+      <!-- Clear Frame -->
+      <call id="a2" endpoint="frames_display">
+        <parameters>
+          <label>Clear Frame</label>
+          <arguments>
+            <type>set</type>
+            <lx>0</lx>
+            <ly>0</ly>
+            <x_amount>5</x_amount>
+            <y_amount>8</y_amount>
+          </arguments>
+        </parameters>
+        <code>
+          <prepare/>
+          <finalize output="result"/>
+          <update output="result"/>
+          <rescue output="result"/>
+        </code>
+        <annotations/>
+        <documentation/>
+      </call>
+
+      <!-- Main Loop -->
+      <loop mode="pre_test" condition="true">
+        <manipulate id="a1" label="Zeit updaten">
+          data.last_scanned = Time.now.to_i
+        </manipulate>
+
+        <!-- Load Dadjoke -->
+        <call id="a4" endpoint="dadjoke">
+          <parameters>
+            <label>Load dadjoke</label>
+            <method>:post</method>
+            <arguments/>
+          </parameters>
+          <code>
+            <prepare/>
+            <finalize output="result"/>
+            <update output="result"/>
+            <rescue output="result"/>
+          </code>
+          <annotations/>
+          <documentation/>
+        </call>
+
+        <!-- Navigate to pages -->
+        <call id="a3" endpoint="subprocess">
+          <parameters>
+            <label>Navigate to pages</label>
+            <method>:post</method>
+            <arguments>
+              <behavior>wait_running</behavior>
+              <url>
+                !"https://cpee.org/hub/server/Teaching.dir/Prak.dir/TUM-Prak-25-SS.dir/Raue_Ole.dir/topic_pages.dir/" + "show_" + data.qr['navigate'] + ".xml"
+              </url>
+            </arguments>
+          </parameters>
+          <code>
+            <prepare/>
+            <finalize output="result">
+              data.result = result
+              data.qr = result['qr']
+            </finalize>
+            <update output="result"/>
+            <rescue output="result"/>
+          </code>
+          <annotations/>
+          <documentation/>
+        </call>
+
+        <!-- Parallel: Wait for scan OR timeout -->
+        <parallel wait="1" cancel="last">
+          <parallel_branch>
+            <call id="a5" endpoint="waitqr">
+              <parameters>
+                <label>Wait for scan</label>
+                <arguments/>
+              </parameters>
+              <code>
+                <prepare/>
+                <finalize output="result">data.qr = result</finalize>
+                <update output="result"/>
+                <rescue output="result"/>
+              </code>
+              <annotations/>
+              <documentation/>
+            </call>
+          </parallel_branch>
+
+          <parallel_branch>
+            <loop mode="pre_test" condition="data.last_scanned > Time.now.to_i - 600">
+              <call id="a6" endpoint="timeout">
+                <parameters>
+                  <label>Wait if nothing happens</label>
+                  <method>:post</method>
+                  <arguments>
+                    <timeout>2</timeout>
+                  </arguments>
+                </parameters>
+                <code>
+                  <prepare/>
+                  <finalize output="result"/>
+                  <update output="result"/>
+                  <rescue output="result"/>
+                </code>
+                <annotations/>
+                <documentation/>
+              </call>
+            </loop>
+            <manipulate id="a7" label="navigate to end">
+              data.qr = {"navigate":"end"}
+            </manipulate>
+          </parallel_branch>
+        </parallel>
+
+        <!-- Exit Condition -->
+        <choose mode="exclusive">
+          <alternative condition="data.qr['navigate'] == &quot;end&quot;">
+            <stop id="a8"/>
+            <terminate/>
+          </alternative>
+          <otherwise/>
+        </choose>
+      </loop>
+
+      <stop id="a10"/>
+    </description>
+  </description>
+
+  <transformation>
+    <description type="copy"/>
+    <dataelements type="none"/>
+    <endpoints type="none"/>
+  </transformation>
+</testset>

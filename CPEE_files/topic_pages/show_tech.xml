@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testset xmlns="http://cpee.org/ns/properties/2.0">
+  <executionhandler>ruby</executionhandler>
+
+  <dataelements>
+    <qr>{"navigate":"tech"}</qr>
+    <tech>Saved to data/tech_data.json</tech>
+  </dataelements>
+
+  <endpoints>
+    <timeout>https://cpee.org/services/timeout.php</timeout>
+    <subprocess>https://cpee.org/flow/start/url/</subprocess>
+    <frames_display>https-put://cpee.org/out/frames/news/</frames_display>
+    <waitqr>https-get://lehre.bpm.in.tum.de/~go56sew/waitqr/initiate.php</waitqr>
+    <frames_init>https-post://cpee.org/out/frames/news/</frames_init>
+    <tech_update>https://lehre.bpm.in.tum.de/~go56sew/jsonpasser/tech_parser.php?q=tech</tech_update>
+  </endpoints>
+
+  <attributes>
+    <guarded>none</guarded>
+    <modeltype>CPEE</modeltype>
+    <theme>extended</theme>
+    <guarded_id/>
+    <info>show_tech</info>
+    <creator>Christine Ashcreek</creator>
+    <author>Christine Ashcreek</author>
+    <model_uuid>eb5655b8-d859-4ed9-ae53-b6e1f28c35ed</model_uuid>
+    <model_version/>
+    <design_dir>Teaching.dir/Prak.dir/TUM-Prak-25-SS.dir/Raue_Ole.dir/topic_pages.dir</design_dir>
+    <design_stage>development</design_stage>
+  </attributes>
+
+  <description>
+    <description xmlns="http://cpee.org/ns/description/1.0">
+
+      <!-- Update tech in backend -->
+      <call id="a3" endpoint="tech_update">
+        <parameters>
+          <label>Update tech in backend</label>
+          <method>:post</method>
+          <arguments/>
+        </parameters>
+        <code>
+          <prepare/>
+          <finalize output="result"/>
+          <update output="result"/>
+          <rescue output="result"/>
+        </code>
+        <annotations/>
+        <documentation/>
+      </call>
+
+      <!-- Show Tech Page -->
+      <call id="a1" endpoint="frames_display">
+        <parameters>
+          <label>Show Tech Page</label>
+          <arguments>
+            <type>set</type>
+            <lx>0</lx>
+            <ly>0</ly>
+            <x_amount>5</x_amount>
+            <y_amount>7</y_amount>
+            <button/>
+            <style/>
+            <urls>
+              <urls_item>
+                <lang>de-at</lang>
+                <url>https://lehre.bpm.in.tum.de/~go56sew/categories/tech.html</url>
+              </urls_item>
+            </urls>
+            <default>
+              <titles>!JSON.generate(data.test)</titles>
+            </default>
+          </arguments>
+        </parameters>
+        <code>
+          <prepare/>
+          <finalize output="result"/>
+          <update output="result"/>
+          <rescue output="result"/>
+        </code>
+        <annotations/>
+        <documentation/>
+      </call>
+
+      <!-- Show Navigation Bar -->
+      <call id="a2" endpoint="frames_display">
+        <parameters>
+          <label>Show Navigation Bar</label>
+          <arguments>
+            <type>set</type>
+            <lx>0</lx>
+            <ly>7</ly>
+            <x_amount>5</x_amount>
+            <y_amount>1</y_amount>
+            <button/>
+            <style/>
+            <urls>
+              <urls_item>
+                <lang>de-at</lang>
+                <url>https://lehre.bpm.in.tum.de/~go56sew/categories/tech_navigation.html</url>
+              </urls_item>
+            </urls>
+            <default/>
+          </arguments>
+        </parameters>
+        <code>
+          <prepare/>
+          <finalize output="result"/>
+          <update output="result"/>
+          <rescue output="result"/>
+        </code>
+        <annotations/>
+        <documentation/>
+      </call>
+
+    </description>
+  </description>
+
+  <transformation>
+    <description type="copy"/>
+    <dataelements type="none"/>
+    <endpoints type="none"/>
+  </transformation>
+</testset>
