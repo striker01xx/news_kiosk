@@ -81,10 +81,21 @@ public_html/
 
 ---
 
+## CPEE Process
+
+1. Initializes and clears the display frame grid
+2. Initializes the data
+3. Updates time
+4. Loads dadjoke
+5. Navigates to the pages. Here it is important to see, that it directs to the subprocesses, where the respective data gets loaded and the pages with the navigation bar get shown
+6. Then it waits for a QR code to be scanned again or just timeouts from the process after 60 seconds.
+
+---
+
 ## API Documentation
 
 The system fetches articles from the [GNews API](https://gnews.io/)  
-and stores them in category-specific JSON files. Each parser script (`*_parser.php`) handles one category.
+and stores them in category-specific JSON files. Each parser script (`*_parser.php`) handles one category. These scripts receive a POST request from the CPEE Engine which then send a request to the API, which can be seen below, and the result gets saved into a .json file.
 
 ### Endpoints and Scripts
 
@@ -102,7 +113,7 @@ and stores them in category-specific JSON files. Each parser script (`*_parser.p
 ### Example API Call (from `tech_parser.php`)
 
 ```php
-$url = "https://gnews.io/api/v4/search?q=AI+OR+technology&lang=en&max=5&apikey=92b57dabb4b148dacaafc52214785cb2";
+$url = "https://gnews.io/api/v4/search?q=AI+OR+technology&lang=en&max=5&apikey=XXX";
 $json = file_get_contents($url);
 $data = json_decode($json, true);
 ```
@@ -114,7 +125,7 @@ $data = json_decode($json, true);
 - `q` – keywords or Boolean operators (e.g., `"AI OR technology"`)  
 - `lang` – language code (e.g., `en`)  
 - `max` – maximum number of articles (default: 10)  
-- `apikey` – the personal gnewsAPI key, which is: 92b57dabb4b148dacaafc52214785cb2
+- `apikey` – the personal gnewsAPI key
 
 ---
 
@@ -190,9 +201,7 @@ https://lehre.bpm.in.tum.de/~go56sew/waitqr/callback.php?navigate=end
 1. Clone or copy the repository into your web server’s public folder.  
 2. Update API keys and query parameters in each parser script under `jsonpasser/`.  
 3. Ensure the `jsonpasser/data/` folder is writable by the web server (to save `.json` files).  
-4. Access the system via your browser:  
-   `http://<your-server>/public_html/display/start.html`  
-
+4. Access the system via your browser.
 ---
 
 
