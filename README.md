@@ -63,8 +63,8 @@ public_html/
 │   │   ├── voted_articles.json
 │
 ├── display/                # Pages
-│   ├── start.html          # Start page for the main process
-│   ├── main.html           # Main Page where recommended articles can be seen and you can navigate to the 
+│   ├── start.html          # Start page for the main process. This page leads to the main page
+│   ├── main.html           # Main Page where recommended articles can be seen and you can navigate to the topic pages
 │   ├── navigation.html     # Navigation bar
 │
 ├── categories/             # Category pages and their respective navigation bar
@@ -231,7 +231,7 @@ https://lehre.bpm.in.tum.de/~go56sew/waitqr/callback.php?navigate=end
 
 1. Adding new topic (same API): (1) To add a new topic, a new .php parser for the topic needs to be created in the jsonpasser/ folder and a new .json file to store the data in the jsonpasser/data/ folder. (2) A parser from the other topics can be copied, the API call should be changed the path, where the result gets stored needs to be changed. (3) Then in the cageories/ folder, a new html page needs to be created. Also, here another topic page can be copied and the path where the data comes from needs to be changed aswell as the headline. (4) A new QR code needs to be generated with the URL "https://lehre.bpm.in.tum.de/~go56sew/waitqr/callback.php?navigate=X", where X is the new topic. (5) In the process engine, a new subprocess needs to be created with the naming of show_X.xml. The process model consists of 3 tasks, where the first one sends a POST request to the parser to update the data in the backend, while the other two are responsible for displaying the page and the navigation bar.
 2. Adding new topic (other API): (1) + (3) + (4) + (5) remain the same, (2) changes, that you need to insert a new API + the key and not just change the keywords.
-
+3. To use the pages as intended, it is necessary to make a main process (Which also displays the start pages of the other students), where the start.html page gets included. This serves as a entry point and the QR Code is referencing to the main.html.
 ---
 
 ## Tech Stack
@@ -243,8 +243,3 @@ https://lehre.bpm.in.tum.de/~go56sew/waitqr/callback.php?navigate=end
 
 ---
 
-## License
-
-This project is licensed for educational use only.  
-Commercial use requires explicit permission.  
-See [LICENSE](LICENSE) for full terms.
