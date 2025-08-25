@@ -114,7 +114,7 @@ and stores them in category-specific JSON files. Each parser script (`*_parser.p
 
 ### Endpoints and Scripts
 
-| Parser Script        | Query Parameters                         | Output JSON             |
+| Parser Script        | Query Parameters                         | Storage JSON             |
 |----------------------|------------------------------------------|-------------------------|
 | `tech_parser.php`    | `q=AI OR technology&lang=en&max=5`       | `data/tech_data.json`   |
 | `economic_parser.php`| `q=economy OR finance&lang=en&max=5`     | `data/economic_data.json`|
@@ -129,8 +129,6 @@ and stores them in category-specific JSON files. Each parser script (`*_parser.p
 
 ```php
 $url = "https://gnews.io/api/v4/search?q=AI+OR+technology&lang=en&max=5&apikey=XXX";
-$json = file_get_contents($url);
-$data = json_decode($json, true);
 ```
 
 ---
@@ -139,8 +137,8 @@ $data = json_decode($json, true);
 
 - `q` – keywords or Boolean operators (e.g., `"AI OR technology"`)  
 - `lang` – language code (e.g., `en`)  
-- `max` – maximum number of articles (default: 10)  
-- `apikey` – the personal gnewsAPI key
+- `max` – maximum number of articles (default: 10), here 5 were chosen, as just 5 articles can be shown in a clear way
+- `apikey` – the personal gnewsAPI key, I blurred it here, though it can be seen in the files
 
 ---
 
