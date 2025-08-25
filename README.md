@@ -6,13 +6,15 @@
 ## Table of Contents
 - [Project Description](#project-description)
 - [Project Architecture](#project-architecture)
+- [CPEE Process](#cpee-process)
 - [API Documentation](#api-documentation)
 - [QR Navigation](#qr-navigation)
 - [Installation](#installation)
-- [Server Management](#server-management)
 - [Testing and Validation](#testing-and-validation)
+- [Extendability](#extendability)
 - [Tech Stack](#tech-stack)
 - [License](#license)
+
 
 ---
 
