@@ -90,6 +90,21 @@ public_html/
 5. Navigates to the pages. Here it is important to see, that it directs to the subprocesses, where the respective data gets loaded and the pages with the navigation bar get shown
 6. Then it waits for a QR code to be scanned again or just timeouts from the process after 60 seconds.
 
+- In the following the folder structure and the respective process description can be seen
+
+```plaintext
+cpee_processes/
+├── main.xml                 # Main process loop: initializes display, waits for QR scans,
+│                            # and delegates to sub-processes based on navigation
+│
+└── topic_pages/             # Sub-processes for each content category
+    ├── show_landing.xml     # Renders main landing page (no parser call)
+    ├── show_tech.xml        # Refreshes tech data → renders tech.html + footer nav
+    ├── show_sports.xml      # Refreshes sports data → renders sports.html + footer nav
+    ├── show_economy.xml     # Refreshes economy data → renders economic.html + footer nav
+    ├── show_science.xml     # Refreshes science data → renders science.html + footer nav
+```
+
 ---
 
 ## API Documentation
